@@ -58,28 +58,24 @@ const letters = [
     "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 ];
 
-
-
-
 const getRandomCountry = () => {
     const index = Math.floor(Math.random() * words.length);
     return words[index];
 };
-const randomCountry = getRandomCountry()
 
 const printDashes = () => {
     const countryLetters = randomCountry.country.split('')
     for (let i = 0; i < countryLetters.length; i++) {
         const pTag = document.createElement('p')
-        pTag.textContent = '_'
+        if (countryLetters[i] === ' ') {
+            pTag.textContent = '-'
+        } else {
+            pTag.textContent = '_'
+        }
         pTag.className = `${countryLetters[i]}`
         wordSect.appendChild(pTag)
     }
 }
-printDashes()
-
-const randomCountryArr = randomCountry.country.split('')
-console.log(randomCountry)
 
 const checkLetter = () => {
 
@@ -88,6 +84,8 @@ const checkLetter = () => {
         const underScore = document.querySelectorAll(`.${letter}`)
 
         letterElement.addEventListener('click', () => {
+            letterElement.classList.add('clicked')
+            letterElement.classList.add('disabled')
             if (randomCountryArr.includes(letter.toLowerCase())) {
                 if (underScore.length === 1) {
                     if (underScore[0].className == letter) {
@@ -97,36 +95,35 @@ const checkLetter = () => {
                 } else {
                     if (underScore[0].className == letter) {
                         underScore.forEach(el => el.textContent = letter)
-                        guesses.push(letter)
+                        underScore.forEach(() => guesses.push(letter))
+
                     }
                 }
             } else {
                 lives -= 1
                 if (lives === 0) {
-                    alert('Mission Failed. Your country was: ' + randomCountry)
+                    alert('Mission Failed. Your country was: ' + randomCountry.country)
                     for (const letter of letters) {
                         const letterElement = document.querySelector(`#${letter}`);
-                        letterElement.className = 'disabled'
+                        letterElement.classList.add('disabled')
                     }
                 }
                 livesSpan.textContent = lives
             }
             const sortedGuess = guesses.sort().join('')
             const matchingGuess = words.find(el => el.country.split('').sort().join('') === sortedGuess)
-            if (matchingGuess) {
+            if (guesses.length !== 0 && matchingGuess) {
                 for (const letter of letters) {
                     const letterElement = document.querySelector(`#${letter}`);
-                    letterElement.className = 'disabled'
+                    letterElement.classList.add('disabled')
                 }
                 alert("You Won!")
 
             }
         });
     }
-
 }
 
-checkLetter()
 
 againBtn.addEventListener('click', () => {
     location.reload()
@@ -136,4 +133,11 @@ hintBtn.addEventListener('click', () => {
     const hintText = document.querySelector('.hint-box-text')
     hintText.textContent = randomCountry.hint
 })
+
+const randomCountry = getRandomCountry()
+const randomCountryArr = randomCountry.country.split('')
+printDashes()
+checkLetter()
+
+
 

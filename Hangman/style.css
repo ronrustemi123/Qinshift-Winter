@@ -9,6 +9,10 @@
   pointer-events: none;
 }
 
+.clicked {
+  opacity: 0.6;
+}
+
 body {
   background-color: #c1d72e;
   color: white;
