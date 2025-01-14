@@ -94,9 +94,10 @@ const checkLetter = () => {
                     }
                 } else {
                     if (underScore[0].className == letter) {
-                        underScore.forEach(el => el.textContent = letter)
-                        underScore.forEach(() => guesses.push(letter))
-
+                        for (const el of underScore) {
+                            el.textContent = letter
+                            guesses.push(letter)
+                        }
                     }
                 }
             } else {
@@ -111,7 +112,12 @@ const checkLetter = () => {
                 livesSpan.textContent = lives
             }
             const sortedGuess = guesses.sort().join('')
-            const matchingGuess = words.find(el => el.country.split('').sort().join('') === sortedGuess)
+            let matchingGuess = false
+            for (const word of words) {
+                if (sortedGuess === word.country.split('').sort().join('')) {
+                    matchingGuess = true
+                }
+            }
             if (guesses.length !== 0 && matchingGuess) {
                 for (const letter of letters) {
                     const letterElement = document.querySelector(`#${letter}`);
