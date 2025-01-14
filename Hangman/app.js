@@ -58,72 +58,72 @@ const letters = [
     "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 ];
 
-const getRandomCountry = () => {
+function getRandomCountry() {
     const index = Math.floor(Math.random() * words.length);
     return words[index];
-};
+}
 
-const printDashes = () => {
-    const countryLetters = randomCountry.country.split('')
+function printDashes() {
+    const countryLetters = randomCountry.country.split('');
     for (let i = 0; i < countryLetters.length; i++) {
-        const pTag = document.createElement('p')
+        const pTag = document.createElement('p');
         if (countryLetters[i] === ' ') {
-            pTag.textContent = '-'
+            pTag.textContent = '-';
         } else {
-            pTag.textContent = '_'
+            pTag.textContent = '_';
         }
-        pTag.className = `${countryLetters[i]}`
-        wordSect.appendChild(pTag)
+        pTag.className = `${countryLetters[i]}`;
+        wordSect.appendChild(pTag);
     }
 }
 
-const checkLetter = () => {
+function checkLetter() {
 
     for (const letter of letters) {
         const letterElement = document.querySelector(`#${letter}`);
-        const underScore = document.querySelectorAll(`.${letter}`)
+        const underScore = document.querySelectorAll(`.${letter}`);
 
-        letterElement.addEventListener('click', () => {
-            letterElement.classList.add('clicked')
-            letterElement.classList.add('disabled')
+        letterElement.addEventListener('click', function () {
+            letterElement.classList.add('clicked');
+            letterElement.classList.add('disabled');
             if (randomCountryArr.includes(letter.toLowerCase())) {
                 if (underScore.length === 1) {
                     if (underScore[0].className == letter) {
-                        underScore[0].textContent = letter
-                        guesses.push(letter)
+                        underScore[0].textContent = letter;
+                        guesses.push(letter);
                     }
                 } else {
                     if (underScore[0].className == letter) {
                         for (const el of underScore) {
-                            el.textContent = letter
-                            guesses.push(letter)
+                            el.textContent = letter;
+                            guesses.push(letter);
                         }
                     }
                 }
             } else {
-                lives -= 1
+                lives -= 1;
                 if (lives === 0) {
-                    alert('Mission Failed. Your country was: ' + randomCountry.country)
+                    alert('Mission Failed. Your country was: ' + randomCountry.country);
                     for (const letter of letters) {
                         const letterElement = document.querySelector(`#${letter}`);
-                        letterElement.classList.add('disabled')
+                        letterElement.classList.add('disabled');
                     }
                 }
-                livesSpan.textContent = lives
+                livesSpan.textContent = lives;
             }
-            const sortedGuess = guesses.sort().join('')
-            let matchingGuess = false
+            const sortedGuess = guesses.sort().join('');
+            let matchingGuess = false;
             for (const word of words) {
                 if (sortedGuess === word.country.split('').sort().join('')) {
-                    matchingGuess = true
+                    matchingGuess = true;
                 }
             }
             if (guesses.length !== 0 && matchingGuess) {
                 for (const letter of letters) {
                     const letterElement = document.querySelector(`#${letter}`);
-                    letterElement.classList.add('disabled')
+                    letterElement.classList.add('disabled');
                 }
-                alert("You Won!")
+                alert("You Won!");
 
             }
         });
@@ -131,11 +131,11 @@ const checkLetter = () => {
 }
 
 
-againBtn.addEventListener('click', () => {
+againBtn.addEventListener('click', function () {
     location.reload()
 })
 
-hintBtn.addEventListener('click', () => {
+hintBtn.addEventListener('click', function () {
     const hintText = document.querySelector('.hint-box-text')
     hintText.textContent = randomCountry.hint
 })
